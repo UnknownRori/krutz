@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 import string
 import random
@@ -36,6 +36,12 @@ def store_url():
     }
 
 
-@app.route('/<token>')
-def show_url(token):
-    return 'Redirect to...'
+@app.route('/<short>')
+def show_url(short):
+    url = Url.query.filter_by(short=short).first()
+
+    if(url is None):
+        # TODO render not found page
+        return '', 404
+
+    return redirect(url.raw)
