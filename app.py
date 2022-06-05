@@ -45,15 +45,20 @@ def store_url():
         random.choices(string.ascii_letters + string.digits, k=6)
     )
 
-    # TODO and add error handler
-    url = Url(raw=raw, short=short)
-    db.session.add(url)
-    db.session.commit()
+    try:
+        url = Url(raw=raw, short=short)
+        db.session.add(url)
+        db.session.commit()
 
-    return {
-        "message": "Successfully shortened url",
-        "result": "/" + url.short
-    }
+        return {
+            "message": "Successfully shortened url",
+            "result": "/" + url.short
+        }
+    except Exception as e:
+        return {
+            "message": "Failed to shorten url",
+            "errors": "Something went wrong. Please try again!"
+        }, 400
 
 
 @app.route('/<short>')
