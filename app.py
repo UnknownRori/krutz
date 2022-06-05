@@ -45,7 +45,6 @@ def show_url(short):
     url = Url.query.filter_by(short=short).first()
 
     if(url is None):
-        # TODO render not found page
-        return '', 404
+        return render_template('404.html'), 404
 
     return redirect(url.raw)
