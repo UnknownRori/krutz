@@ -14,6 +14,7 @@ class Url(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     raw = db.Column(db.String, nullable=False)
     short = db.Column(db.String, unique=True, nullable=False)
+# TODO move this class to separate file
 
 
 @app.route('/')
@@ -26,6 +27,8 @@ def store_url():
     raw = request.json['url']
     short = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
+    # TODO do some validation
+    # TODO and add error handler
     url = Url(raw=raw, short=short)
     db.session.add(url)
     db.session.commit()
