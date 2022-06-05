@@ -39,7 +39,6 @@ formElement.addEventListener('submit', (event) => {
     // Post the value to api
     post('/', { url: uri }).then((res) => res.json()).then((data) => {
         // Display the result
-        console.log(data)
         resultSection.classList.remove('hidden');
         resultDisplay.setAttribute(`href`, data.result);
         resultDisplay.textContent = `${window.location.origin}${data.result}`;
