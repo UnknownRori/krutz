@@ -34,12 +34,15 @@ formElement.addEventListener('submit', (event) => {
     // get value from input element.
     const uri = inputElement.value;
 
+    if (!uri) return;
+
     // Post the value to api
-    // post('endpoint', {uri:  uri.value}).then((res) => res.json()).then((data) => {
-    // Display the result
-    // resultSection.classList.remove('hidden');
-    // resultDisplay.textContent = uri;
-    // }).catch((err) => {
-    // Catch Error
-    // });
+    post('/', { url: uri }).then((res) => res.json()).then((data) => {
+        // Display the result
+        resultSection.classList.remove('hidden');
+        resultDisplay.setAttribute(`href`, data.result);
+        resultDisplay.textContent = `${window.location.origin}${data.result}`;
+    }).catch((err) => {
+        console.log(err);
+    });
 })
