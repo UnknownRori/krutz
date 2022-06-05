@@ -18,7 +18,7 @@ A shorter uri microservice written in flask.
 > python -m venv venv
 
 # Activate virtual env
-> source venv/bin/activate
+> source venv/Scripts/activate
 
 # Install dependency
 > pip install -r requirements.txt
