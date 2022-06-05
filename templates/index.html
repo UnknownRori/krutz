@@ -3,13 +3,44 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home</title>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="/static/style.css">
+        <script src="/static/app.js" defer></script>
+        <title>Krutz URL Shortener</title>
     </head>
 
     <body>
-
+        <div class="min-h-screen bg-[url(/static/grid.svg)]">
+            <div class="m-auto flex min-h-screen w-[80%] flex-col justify-center">
+                <header class="my-4 flex flex-col self-center">
+                    <h2 class="text-center font-bold text-gray-800 sm:text-6xl md:text-6xl lg:text-6xl">Kurtz</h2>
+                </header>
+                <main
+                    class="my-4 flex flex-col self-center rounded bg-white p-6 shadow-xl ring-1 ring-gray-200 sm:w-[100%] md:w-[80%]">
+                    <h4 class="text-center font-bold text-gray-700 sm:text-2xl md:text-3xl lg:text-4xl">Paste the URI to
+                        be
+                        shortened</h4>
+                    <form id='form' class="my-4 mx-2 flex flex-row" action='' method="post">
+                        <div class="mx-2 flex w-[100%]">
+                            <input class="w-[100%] rounded border-gray-50 bg-gray-100 p-2 ring-1 ring-gray-300"
+                                name="uri" type="text" placeholder="Enter the link here">
+                        </div>
+                        <div class="mx-2 flex w-[20%] justify-center">
+                            <input type="submit"
+                                class="cursor-pointer rounded bg-gray-500 p-2 text-white ring-1 ring-gray-600 transition-colors duration-200 hover:bg-gray-800 hover:ring-gray-800"
+                                value="Shorten URL">
+                        </div>
+                    </form>
+                    <p class="text-center text-gray-600">Use Krutz to shorten a URL or reduce a link.</p>
+                </main>
+                <section id='result-section'
+                    class="flex hidden flex-col self-center rounded bg-white p-6 shadow-xl ring-1 ring-gray-200 sm:w-[100%] md:w-[80%]">
+                    <a href="" id='result-display'
+                        class="text-blue-600 transition-colors duration-150 hover:text-blue-800 hover:underline">https://google.com</a>
+                </section>
+            </div>
+        </div>
     </body>
 
 </html>
