@@ -10,6 +10,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
+class Url(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    raw = db.Column(db.String, nullable=False)
+    short = db.Column(db.String, unique=True, nullable=False)
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -20,9 +26,13 @@ def store_url():
     raw = request.json['url']
     short = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
+    url = Url(raw=raw, short=short)
+    db.session.add(url)
+    db.session.commit()
+
     return {
         "message": "Successfully shortened url",
-        "url": "/" + short
+        "result": "/" + url.short
     }
 
 
