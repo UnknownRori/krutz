@@ -16,6 +16,7 @@ class Url(db.Model):
     short = db.Column(db.String, unique=True, nullable=False)
 # TODO move this class to separate file
 
+db.create_all()
 
 @app.route('/')
 def index():
