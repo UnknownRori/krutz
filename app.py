@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from marshmallow import fields
 import string
 import random
 
@@ -8,13 +10,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
 
 class Url(db.Model):
+    # TODO move this class to separate file
     id = db.Column(db.Integer, primary_key=True)
     raw = db.Column(db.String, nullable=False)
     short = db.Column(db.String, unique=True, nullable=False)
-# TODO move this class to separate file
+
+
+class UrlSchema(ma.Schema):
+    # TODO move this class to separate file
+    url = fields.Url(required=True)
 
 
 @app.route('/')
@@ -24,10 +32,19 @@ def index():
 
 @app.route('/', methods=['post'])
 def store_url():
-    raw = request.json['url']
-    short = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    errors = UrlSchema().validate(request.json)
 
-    # TODO do some validation
+    if errors:
+        return {
+            'message': 'Failed to shorten url',
+            'errors': errors
+        }, 400
+
+    raw = request.json['url']
+    short = ''.join(
+        random.choices(string.ascii_letters + string.digits, k=6)
+    )
+
     # TODO and add error handler
     url = Url(raw=raw, short=short)
     db.session.add(url)
