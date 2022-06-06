@@ -1,6 +1,6 @@
 from flask import render_template, redirect, request
 from database.db import Url, UrlSchema
-from router.router import app
+from router.router import app, limiter
 
 class UriController:
     
@@ -10,6 +10,7 @@ class UriController:
 
 
     @app.route('/', methods=['post'])
+    @limiter.limit("60/day;10/hour;5/minute", override_defaults=True)
     def store():
         errors = UrlSchema().validate(request.json)
 
