@@ -25,6 +25,7 @@ const post = async (url, body) => {
 const formElement = document.getElementById('form');
 const resultSection = document.getElementById('result-section');
 const resultDisplay = document.getElementById('result-display');
+const messageDisplay = document.getElementById('message-display');
 formElement.addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent form to performing full page refresh.
 
@@ -38,11 +39,22 @@ formElement.addEventListener('submit', (event) => {
 
     // Post the value to api
     post('/', { url: uri }).then((res) => res.json()).then((data) => {
-        // Display the result
-        resultSection.classList.remove('hidden');
-        resultDisplay.setAttribute(`href`, data.result);
-        resultDisplay.textContent = `${window.location.origin}${data.result}`;
+        messageDisplay.classList.remove('hidden');
+        if (data.errors == undefined) {
+            messageDisplay.classList.remove('bg-red-500');
+            messageDisplay.classList.add('bg-green-500');
+            messageDisplay.textContent = data.message;
+
+            // Display the result
+            resultSection.classList.remove('hidden');
+            resultDisplay.setAttribute(`href`, data.result);
+            resultDisplay.textContent = `${window.location.origin}${data.result}`;
+        } else {
+            messageDisplay.classList.remove('bg-green-500');
+            messageDisplay.classList.add('bg-red-500');
+            messageDisplay.textContent = data.message;
+        }
     }).catch((err) => {
-        console.log(err);
+        console.error(err);
     });
 })
